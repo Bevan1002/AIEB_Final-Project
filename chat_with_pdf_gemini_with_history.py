@@ -3,10 +3,10 @@ os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 import streamlit as st
 from langchain_community.document_loaders import PyPDFLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
 from langchain_community.vectorstores import FAISS
-from langchain.chains import RetrievalQA
+from langchain_classic.chains import RetrievalQA
 import tempfile
 import time
 import google.generativeai as genai
@@ -38,9 +38,8 @@ Question: {user_input}
 GOOGLE_API_KEY = 'YOUR_GOOGLE_API_KEY' # "YOUR_GOOGLE_API_KEY"  # Replace with your actual Gemini API key
 os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
 
-embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
-llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0.5)
-
+embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
+llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.5)
 
 st.set_page_config(page_title="Chat with Your PDFs (Gemini)")
 

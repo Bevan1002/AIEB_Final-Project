@@ -46,14 +46,17 @@ conda activate chatbot
 conda install -c conda-forge streamlit faiss-cpu pdf2image pytesseract pillow
 
 # Install the remaining packages using pip
-pip install "langchain>=0.1.0"  # Core LangChain framework for building LLM applications
-pip install "langchain-community>=0.0.10"  # Community integrations for LangChain, like RAG tools
-pip install "langchain-google-genai>=0.0.5"  # Google Generative AI (Gemini) integration for LangChain
-pip install "google-generativeai>=0.3.0"  # Google's official Python SDK for Gemini models
-pip install "langchain-openai>=0.0.2"  # OpenAI integration for LangChain
-pip install "langchain-ollama"  # Ollama integration for running local LLMs with LangChain
-pip install "openai>=1.3.0"  # OpenAI's official Python SDK for GPT models
-pip install "pypdf>=3.15.1"  # Library for reading and extracting text from PDF files
+pip install "langchain>=0.3.0"                # Core LangChain framework for building LLM applications
+pip install "langchain-community>=0.3.0"      # Community integrations for LangChain, like RAG tools
+pip install "langchain-text-splitters>=0.3.0" # Text splitting utilities
+pip install "langchain-classic>=0.1.0"        # Legacy chains (RetrievalQA) for LangChain 1.x compatibility
+pip install "langchain-google-genai>=2.0.0"   # Google Generative AI (Gemini) integration for LangChain
+pip install "google-generativeai>=0.8.0"      # Google's official Python SDK for Gemini models
+pip install "langchain-openai>=0.3.0"         # OpenAI integration for LangChain
+pip install "langchain-ollama>=0.2.0"         # Ollama integration for running local LLMs with LangChain
+pip install "langchain-anthropic>=0.3.0"      # Anthropic (Claude) integration for LangChain
+pip install "openai>=1.76.0"                  # OpenAI's official Python SDK for GPT models
+pip install "pypdf>=5.0.0"                    # Library for reading and extracting text from PDF files
 ```
 
 In the vscode terminal, use following command to confirm the environment is working:
@@ -64,9 +67,9 @@ which python # should return /Users/your_username/miniconda3/envs/chatbot/bin/py
 ```
 
 
-# 2. Run Chatbot with Local LLM
+# 3. Run Chatbot with Local LLM
 
-## 2.1 Download and Install Ollama
+## 3.1 Download and Install Ollama
 
 Ollama allows you to run large language models locally on your computer. To install Ollama:
 
@@ -105,7 +108,7 @@ Besides the LLM, we also need to install the embedding model. Here we use the `n
 ollama pull nomic-embed-text
 ```
 
-## 2.2 Test the ollama model
+## 3.2 Test the ollama model
 
 **use the ollama model in the python code**
 
@@ -127,7 +130,7 @@ python test_with_ollama.py # the expected output is: The capital city of France 
 ```
 
 
-## 2.3 Run the Chatbot App 
+## 3.3 Run the Chatbot App 
 
 Now you have the ollama model and the embedding model. 
 
@@ -157,9 +160,9 @@ streamlit run chat_with_pdf_ollama_with_history.py
 
 
 
-# 3. Run Chatbot with Remote LLM
+# 4. Run Chatbot with Remote LLM
 
-## 3.1 Get Gemini API Key 
+## 4.1 Get Gemini API Key 
 
 You can get the Gemini API key from the Google Cloud Console: https://aistudio.google.com/apikey.
 
@@ -176,13 +179,13 @@ GOOGLE_API_KEY = 'YOUR_GOOGLE_API_KEY'
 GOOGLE_API_KEY = 'YOUR_GOOGLE_API_KEY'
 ```
 
-## 3.2 Run the Chatbot App 
+## 4.2 Run the Chatbot App 
 
 To run the chatbot with Ollama, you have three options:
 
 **Basic Gemini Chatbot**
 ```bash
-streamlit run chat_with_pdf_gemini.py
+streamlit run chat_with_gemini.py
 ```
 
 **Basic Gemini Chatbot with PDF**
@@ -196,12 +199,21 @@ streamlit run chat_with_pdf_gemini_with_history.py
 ```
 
 
-## 3.3 Other Options
-
+## 4.3 Other Options
+### 4.3.1 OpenAI Option
 Put the API key in the `OPENAI_API_KEY` variable in the `chat_with_pdf_openai.py` file.
 
 ```python
 # find and replace the OPENAI_API_KEY in chat_with_pdf_openai.py
 OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY'
 ```
+### 4.3.2 Claude Option
+The Claude version uses **two API keys**: Anthropic for the LLM and Google for embeddings.
 
+Put both keys in the `chat_with_pdf_claude.py` file:
+
+```python
+# find and replace in chat_with_pdf_claude.py
+ANTHROPIC_API_KEY = 'YOUR_ANTHROPIC_API_KEY'  # Get from https://console.anthropic.com
+GOOGLE_API_KEY = 'YOUR_GOOGLE_API_KEY'         # Same key as used in the Gemini version
+```

@@ -11,7 +11,7 @@ os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
 
 # Function to get response from Gemini using langchain
 def get_response_from_gemini(prompt):
-    llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
+    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
     response = llm.invoke(prompt)
     return response
 

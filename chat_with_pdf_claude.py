@@ -4,20 +4,24 @@ os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 import streamlit as st
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_anthropic import ChatAnthropic
+from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
 from langchain_community.vectorstores import FAISS
 from langchain_classic.chains import RetrievalQA
 import tempfile
 import time 
 
-OPENAI_API_KEY = "YOUR_OPENAI_API_KEY"
+ANTHROPIC_API_KEY = "YOUR_ANTHROPIC_API_KEY"
+
+GOOGLE_API_KEY = "YOUR_GOOGLE_API_KEY"
 
 # Set OpenAI API key (replace with your key or use an env variable)
-os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
+os.environ["ANTHROPIC_API_KEY"] = ANTHROPIC_API_KEY
+os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
 
-st.set_page_config(page_title="Chat with Your PDFs (OpenAI)", layout="wide")
+st.set_page_config(page_title="Chat with Your PDFs (Claude)", layout="wide")
 
-st.title("📄💬 Chat with Your PDFs (OpenAI)")
+st.title("📄💬 Chat with Your PDFs (Claude)")
 
 # File uploader
 uploaded_files = st.file_uploader("Upload PDFs", accept_multiple_files=True, type=["pdf"])
@@ -45,7 +49,7 @@ if uploaded_files:
                 docs = text_splitter.split_documents(documents)
 
                 # Generate embeddings and store in FAISS
-                embeddings = OpenAIEmbeddings()
+                embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
                 st.session_state.vector_store = FAISS.from_documents(docs, embeddings)
 
         st.success("✅ PDFs uploaded and processed! You can now start chatting.")
@@ -72,7 +76,7 @@ if uploaded_files:
         
         # Create QA chain
         qa_chain = RetrievalQA.from_chain_type(
-            llm=ChatOpenAI(model_name="gpt-4.1", temperature=0.5),
+            llm=ChatAnthropic(model="claude-sonnet-4-5", temperature=0.5),
             retriever=st.session_state.vector_store.as_retriever(),
             chain_type="stuff"
         )

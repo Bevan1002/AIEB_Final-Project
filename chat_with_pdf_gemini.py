@@ -3,10 +3,10 @@ os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 import streamlit as st
 from langchain_community.document_loaders import PyPDFLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
 from langchain_community.vectorstores import FAISS
-from langchain.chains import RetrievalQA
+from langchain_classic.chains import RetrievalQA
 import tempfile
 import time
 import google.generativeai as genai
@@ -48,7 +48,7 @@ if uploaded_files:
 
                 # Generate embeddings and store in FAISS
                 # ------------------------------------------------- #
-                embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+                embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
 
                 # use your embeddings model here
                 st.session_state.vector_store = FAISS.from_documents(docs, embeddings)
@@ -103,7 +103,7 @@ if uploaded_files:
         # and formatting it with the prompt template
         qa_chain = RetrievalQA.from_chain_type(
             ## use your llm model here
-            llm=ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0.5),
+            llm=ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.5),
             retriever=retriever,
             chain_type="stuff",  # "stuff" chain type puts all retrieved documents into the prompt context
             return_source_documents=True,  # Return source documents for reference

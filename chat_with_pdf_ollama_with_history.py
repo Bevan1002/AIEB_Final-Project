@@ -3,10 +3,10 @@ os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 import streamlit as st
 from langchain_community.document_loaders import PyPDFLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_ollama import OllamaEmbeddings, OllamaLLM
 from langchain_community.vectorstores import FAISS
-from langchain.chains import RetrievalQA
+from langchain_classic.chains import RetrievalQA
 import tempfile
 import time
 import google.generativeai as genai
@@ -35,7 +35,7 @@ Question: {user_input}
 
 
 # Set Google API key (replace with your key or use an env variable)
-GOOGLE_API_KEY = 'AIzaSyDMR4occp3VixMk1HXcA-IUt4QMGltN61E' # "YOUR_GOOGLE_API_KEY"  # Replace with your actual Gemini API key
+GOOGLE_API_KEY = 'YOUR_GOOGLE_API_KEY' # "YOUR_GOOGLE_API_KEY"  # Replace with your actual Gemini API key
 os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
 
 
